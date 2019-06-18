@@ -8,7 +8,7 @@ import utils
 
 
 class Classifier(ContinualLearner, Replayer, ExemplarHandler):
-    '''Model for classifying images, "enriched" as "ContinualLearner"-, Replayer- and ExemplarHandler-object.'''
+    """Model for classifying images, "enriched" as "ContinualLearner"-, Replayer- and ExemplarHandler-object."""
 
     def __init__(self, image_size, image_channels, classes,
                  fc_layers=3, fc_units=1000, fc_drop=0, fc_bn=True, fc_nl="relu", gated=False,

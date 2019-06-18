@@ -3,9 +3,9 @@ from torch import nn
 
 
 class Replayer(nn.Module, metaclass=abc.ABCMeta):
-    '''Abstract  module for a classifier/generator that can be trained with replay.
+    """Abstract  module for a classifier/generator that can be trained with replay.
 
-    Initiates ability to reset state of optimizer between tasks.'''
+    Initiates ability to reset state of optimizer between tasks."""
 
     def __init__(self):
         super().__init__()

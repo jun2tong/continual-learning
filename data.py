@@ -151,10 +151,10 @@ DATASET_CONFIGS = {
 
 def get_multitask_experiment(name, scenario, tasks, data_dir="./datasets", only_config=False, verbose=False,
                              exception=False):
-    '''Load, organize and return train- and test-dataset for requested experiment.
+    """Load, organize and return train- and test-dataset for requested experiment.
 
     [exception]:    <bool>; if True, for visualization no permutation is applied to first task (permMNIST) or digits
-                            are not shuffled before being distributed over the tasks (splitMNIST)'''
+                            are not shuffled before being distributed over the tasks (splitMNIST)"""
 
     # depending on experiment, get and organize the datasets
     if name == 'permMNIST':
