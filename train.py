@@ -160,6 +160,7 @@ def train_cl(model, train_datasets, replay_mode="none", scenario="class", classe
             if not Exact and not Generative and not Current:
                 x_ = y_ = scores_ = None  # -> if no replay
 
+            """
             ##-->> Exact Replay <<--##
             if Exact:
                 scores_ = None
@@ -197,8 +198,9 @@ def train_cl(model, train_datasets, replay_mode="none", scenario="class", classe
                             scores_temp = scores_temp[:,
                                           (classes_per_task * task_id):(classes_per_task * (task_id + 1))]
                             scores_.append(scores_temp)
+            """
 
-            ##-->> Generative / Current Replay <<--##
+            """-->> Generative / Current Replay <<--"""
             if Generative or Current:
                 # Get replayed data (i.e., [x_]) -- either current data or use previous generator
                 x_ = x if Current else previous_generator.sample(batch_size)
@@ -287,22 +289,6 @@ def train_cl(model, train_datasets, replay_mode="none", scenario="class", classe
         progress.close()
         if generator is not None:
             progress_gen.close()
-
-        # EWC: estimate Fisher Information matrix (FIM) and update term for quadratic penalty
-        if isinstance(model, ContinualLearner) and (model.ewc_lambda > 0):
-            # -find allowed classes
-            allowed_classes = list(
-                range(classes_per_task * (task - 1), classes_per_task * task)
-            ) if scenario == "task" else (list(range(classes_per_task * task)) if scenario == "class" else None)
-            # -if needed, apply correct task-specific mask
-            if model.mask_dict is not None:
-                model.apply_XdGmask(task=task)
-            # -estimate FI-matrix
-            model.estimate_fisher(training_dataset, allowed_classes=allowed_classes)
-
-        # SI: calculate and update the normalized path integral
-        if isinstance(model, ContinualLearner) and (model.si_c > 0):
-            model.update_omega(W, model.epsilon)
 
         # EXEMPLARS: update exemplar sets
         if (add_exemplars or use_exemplars) or replay_mode == "exemplars":
